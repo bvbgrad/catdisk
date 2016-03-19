@@ -6,8 +6,8 @@
 
 # eclipse specific git ignore
 *.pydevproject
-.project
-.metadata
+#.project
+#.metadata
 bin/**
 servers/**
 tmp/**
@@ -27,3 +27,4 @@ local.properties
 hs_err_pid*
 
 *~
+/build/
