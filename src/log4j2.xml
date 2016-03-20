@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="debug">
+    <appenders>
+        <Console name="STDOUT">
+            <PatternLayout pattern="%d %-5level [%t] %logger{32} %msg%n" />
+        </Console>
+
+        <File name="FILE" fileName="logs/catdisk01.log" immediateFlush="true">
+            <PatternLayout pattern="%d %p [%t] %logger{32} %msg%n" />
+        </File>
+    </appenders>
+
+    <Loggers>
+         <root level="info">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="FILE" />
+        </root>
+    </Loggers>
+</configuration>
