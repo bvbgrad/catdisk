@@ -22,7 +22,7 @@ package org.ll6.utils.catdisk.controllers;
 	    	logger.info("sayHello: {}", sGreet);
 
 	    	model.addAttribute("greeting", sGreet);
-
+	    	
 	        return "catdisk";
 	    }
 	}
