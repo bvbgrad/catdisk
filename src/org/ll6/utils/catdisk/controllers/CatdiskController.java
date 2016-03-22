@@ -1,6 +1,7 @@
 package org.ll6.utils.catdisk.controllers;
 
-	import java.util.Locale;
+	import java.sql.SQLException;
+import java.util.Locale;
 
 	import org.apache.logging.log4j.LogManager;
 	import org.apache.logging.log4j.Logger;
@@ -25,4 +26,15 @@ package org.ll6.utils.catdisk.controllers;
 	    	
 	        return "catdisk";
 	    }
+	    
+	    @RequestMapping(value = "/null")
+	    public void nullPointerError() {
+	    	throw new NullPointerException();
+	    }
+	 
+	    @RequestMapping(value = "/sql")
+	    public void dataError() throws SQLException {
+	    	throw new SQLException();
+	    }
+
 	}
