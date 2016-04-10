@@ -24,17 +24,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 	    			locale.toString() + "'";
 	    	logger.info("sayHello: {}", sGreet);
 	    	
+	    	String sDiskName = "";
+	    	String sDiskSerialNumber = "";
 	    	try {
 	    		Process p = Runtime.getRuntime().exec("cmd /c vol e:");
-	    		Scanner sc = new Scanner(p.getInputStream());    		
-	    		while (sc.hasNext()) System.out.println(sc.nextLine());
+	    		Scanner sc = new Scanner(p.getInputStream());
+	    		if (sc.hasNext()) {
+	    			sDiskName = sc.nextLine();
+	    			sDiskName = sDiskName.substring(23);
+	    		}
+	    		if (sc.hasNext()) {
+	    			sDiskSerialNumber = sc.nextLine();
+	    			sDiskSerialNumber = sDiskSerialNumber.substring(25);
+	    		}
 	    		sc.close();
+	    		
+	    		if (sDiskName == "" && sDiskSerialNumber == "") {
+	    			System.out.println("No disk information");
+	    		} else {
+	    			System.out.println("Disk Name: " + sDiskName + "\nSerial: " + sDiskSerialNumber);	    			
+	    		}
+
 	    	}
 	    	catch (IOException e) {
 	    		System.out.println(e.getMessage());
 	    	}	
 
 	    	model.addAttribute("greeting", sGreet);
+	    	model.addAttribute("diskVolName", sDiskName);
+	    	model.addAttribute("diskSerialNumber", sDiskSerialNumber);
 	    	
 	        return "catdisk";
 	    }

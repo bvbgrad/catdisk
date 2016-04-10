@@ -5,8 +5,12 @@
 <title>catdisk home</title>
 </head>
 <body>
-Welcome to the disk catalog application.
-<br> Greeting: ${greeting} <br>
-<br> Under Construction (as of <%=new java.util.Date()%>) <br>
+	Welcome to the disk catalog application.
+	<br> Greeting: ${greeting} <br>
+	<br> Disk information: <br>
+	${diskVolName}<br>
+	${diskSerialNumber}<br>
+	
+	<br> Under Construction (as of <%=new java.util.Date()%>) <br>
 </body>
 </html>
