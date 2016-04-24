@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +13,8 @@
 	${diskVolName}<br>
 	${diskSerialNumber}<br>
 	
-	<br> Under Construction (as of <%=new java.util.Date()%>) <br>
+	<p><a href="<c:url value="/scan" />">Scan the disk</a></p>
+	
+    <br> Under Construction (as of ${currentDate}) <br>
 </body>
 </html>

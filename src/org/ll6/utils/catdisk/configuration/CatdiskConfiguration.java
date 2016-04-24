@@ -13,7 +13,10 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @EnableAspectJAutoProxy
 
-@ComponentScan(basePackages = {"org.ll6.utils.catdisk.controllers", "org.ll6.utils.catdisk.aop"})
+@ComponentScan(basePackages = 
+{
+	"org.ll6.utils.catdisk"
+})
 
 public class CatdiskConfiguration {
     @Bean

@@ -1,5 +1,7 @@
 package org.ll6.utils.catdisk.aop;
 
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -15,9 +17,9 @@ public class AspectAOP {
 	private static final Logger logger = LogManager.getLogger();
 	 
 	@Before("execution(* org.ll6.utils.catdisk.controllers.*.*(..))")
-	 public void before(JoinPoint joinPoint) {
-    	String className = joinPoint.getSignature().getDeclaringTypeName();
-    	String methodName = joinPoint.getSignature().getName();
+	public void beforeUtils(JoinPoint joinPoint) {
+		String className = joinPoint.getSignature().getDeclaringTypeName();
+		String methodName = joinPoint.getSignature().getName();
 		logger.info("{}.{}", className, methodName);
 	 }
 
