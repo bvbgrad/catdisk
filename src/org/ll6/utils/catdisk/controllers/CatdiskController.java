@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 	    		Scanner sc = new Scanner(p.getInputStream());
 	    		if (sc.hasNext()) {
 	    			sDiskName = sc.nextLine();
-	    			sDiskName = sDiskName.substring(23);
+	    			sDiskName = sDiskName.substring(22);
 	    		}
 	    		if (sc.hasNext()) {
 	    			sDiskSerialNumber = sc.nextLine();
