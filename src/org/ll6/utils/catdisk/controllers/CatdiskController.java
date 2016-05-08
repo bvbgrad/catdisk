@@ -12,9 +12,11 @@ import javax.swing.JFileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 	@Controller
 	public class CatdiskController {
@@ -59,25 +61,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 	    	
 	        return "catdisk";
 	    }
+
+	    @RequestMapping(value = "/scanDir")
+	    public String scanDir(
+				@RequestParam("scanFile") String filename,
+				Model model)
+		{
+	    	System.out.println("scanDir file: " + filename);
+	    	
+	    	model.addAttribute("diskDir", filename);
+	    	return "catdisk";
+	    }
+	    
 	    
 	    @RequestMapping(value = "/scan")
 	    public String scanDisk() {
 	    	
 //	    	int nFiles = 0;
 //	    	String sPattern = "*.java";
-	    	Boolean bPrint = false;
-	    	File dir = new File("/e:"); 
+	    	Boolean bPrint = true;
+//	    	File dir = new File("/e:"); 
 	    	
-//	    	Path path = getTargetDir();
-	    	
-//	    	File dir = path.toFile();
+	    	Path path = getTargetDir();
+	    	File dir = path.toFile();
 	    	walkin(dir, bPrint);
 	    	
 //	    	CatDiskScan catDiskScan = new CatDiskScan();
-//			System.out.println("Step 4");
+			System.out.println("Step 4: " + path);
 
 //			catDiskScan.scanDisk();  // immediately invoke primary method
-			System.out.println("Step controller step 5");
+			System.out.println("Step controller step 5: " + dir);
 
 	        return "catdisk";
 	    }
