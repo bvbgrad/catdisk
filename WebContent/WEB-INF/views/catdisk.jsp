@@ -25,7 +25,7 @@
 
     <c:url var="url" value="/scanDir" />
     <form action="${url}" method="post">
-	   <input type="file" name="scanFile">
+	   <input type="file" name="scanFile"> <br/>
 	   <input type="submit" value="Scan" name="submitScanDir" />
 	</form>
 
