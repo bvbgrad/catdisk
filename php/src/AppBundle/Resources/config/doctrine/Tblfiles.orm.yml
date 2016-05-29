@@ -1,0 +1,71 @@
+AppBundle\Entity\Tblfiles:
+    type: entity
+    table: tblfiles
+    indexes:
+        CopyID:
+            columns:
+                - CopyID
+        ID:
+            columns:
+                - ID
+        VolumeID:
+            columns:
+                - VolumeID
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        diskid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: DiskID
+        volumeid:
+            type: string
+            nullable: true
+            length: 20
+            options:
+                fixed: false
+            column: VolumeID
+        copyid:
+            type: boolean
+            nullable: false
+            options:
+                default: '0'
+            column: CopyID
+        fname:
+            type: string
+            nullable: true
+            length: 50
+            options:
+                fixed: false
+            column: FName
+        fpath:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: FPath
+        datecreated:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: DateCreated
+        flen:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                default: '0'
+            column: FLen
+    lifecycleCallbacks: {  }
