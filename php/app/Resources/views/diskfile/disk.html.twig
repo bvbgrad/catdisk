@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DiskScan{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+<p>The Volume String is "{{ volume }}"
+<br>The Volume ID is "{{ volumeName }}"
+<br>The Volume Serial is "{{ volumeSerial }}"
+{{ dump() }}
+
+{% endblock %}

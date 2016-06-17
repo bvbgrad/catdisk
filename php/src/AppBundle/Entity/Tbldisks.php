@@ -49,6 +49,13 @@ class Tbldisks
      */
     private $locationtxt;
 
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="CreatedOn", type="DateTime")
+     */
+    private $createdon;
+
 
 
     /**
@@ -155,5 +162,29 @@ class Tbldisks
     public function getLocationtxt()
     {
         return $this->locationtxt;
+    }
+    
+    /**
+     * Set CreatedOn
+     *
+     * @param string $createdon
+     *
+     * @return Tbldisks
+     */
+    public function setCreatedOn(\DateTime $createdon = null)
+    {
+        $this->createdon = $createdon;
+
+        return $this;
+    }
+
+    /**
+     * Get $createdon
+     *
+     * @return DateTime
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdon;
     }
 }
