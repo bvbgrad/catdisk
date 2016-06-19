@@ -52,7 +52,7 @@ class Tbldisks
     /**
      * @var date
      *
-     * @ORM\Column(name="CreatedOn", type="DateTime")
+     * @ORM\Column(name="CreatedOn", type="date")
      */
     private $createdon;
 
