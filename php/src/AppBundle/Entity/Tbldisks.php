@@ -24,14 +24,21 @@ class Tbldisks
     /**
      * @var string
      *
+     * @ORM\Column(name="Serial", type="string", length=16, nullable=false)
+     */
+    private $serial;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="VolumeID", type="string", length=20, nullable=false)
      */
     private $volumeid;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="CopyID", type="boolean", nullable=false)
+     * @ORM\Column(name="CopyID", type="integer", length=4, nullable=false)
      */
     private $copyid = '0';
 
@@ -55,6 +62,13 @@ class Tbldisks
      * @ORM\Column(name="CreatedOn", type="date")
      */
     private $createdon;
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="ModifiedOn", type="date")
+     */
+    private $modifiedon;
 
 
 
@@ -90,6 +104,30 @@ class Tbldisks
     public function getVolumeid()
     {
         return $this->volumeid;
+    }
+
+    /**
+     * Set serial
+     *
+     * @param string $serial
+     *
+     * @return Tbldisks
+     */
+    public function setSerial($serial)
+    {
+        $this->serial = $serial;
+
+        return $this;
+    }
+
+    /**
+     * Get serial
+     *
+     * @return string
+     */
+    public function getSerial()
+    {
+        return $this->serial;
     }
 
     /**
@@ -186,5 +224,28 @@ class Tbldisks
     public function getCreatedOn()
     {
         return $this->createdon;
+    }
+    /**
+     * Set ModifiedOn
+     *
+     * @param string $modifiedon
+     *
+     * @return Tbldisks
+     */    
+    public function setModifiedOn(\DateTime $modifiedon = null)
+    {
+        $this->modifiedon = $modifiedon;
+
+        return $this;
+    }
+
+    /**
+     * Get $modifiedon
+     *
+     * @return DateTime
+     */
+    public function getModifiedOn()
+    {
+        return $this->modifiedon;
     }
 }

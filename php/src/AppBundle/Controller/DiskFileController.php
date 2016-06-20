@@ -32,18 +32,22 @@ class DiskFileController extends Controller
 	    
 	    $disk = new Tbldisks();
 	    $disk->setVolumeid($volumeName);
-	    $disk->setCopyid($volumeSerial);
+	    $disk->setSerial($volumeSerial);
+	    $disk->setCopyid(0);
 	    $disk->setDescriptiontxt('new disk');
 	    $disk->setCreatedOn(new \DateTime('today'));
+	    $disk->setModifiedOn(new \DateTime('today'));
 	    
 	    $form = $this->createFormBuilder($disk)
 	    	->add('volumeid', TextType::class)
+	    	->add('serial', TextType::class)
 	    	->add('copyid', TextType::class)
 	    	->add('descriptiontxt', TextType::class)
 	    	->add('createdon', DateType::class, [
 	    			'widget' => 'choice',
 	    			'years' => range(2000, 2020),
 	    	])
+	    	->add('modifiedon', DateType::class)
 	    	->add('save', SubmitType::class, array('label' => 'Create Disk'))
 	    	->getForm();
     	
