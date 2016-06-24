@@ -39,16 +39,36 @@ class DiskFileController extends Controller
 	    $disk->setModifiedOn(new \DateTime('today'));
 	    
 	    $form = $this->createFormBuilder($disk)
-	    	->add('volumeid', TextType::class)
-	    	->add('serial', TextType::class)
-	    	->add('copyid', TextType::class)
-	    	->add('descriptiontxt', TextType::class)
+	    	->add('volumeid', TextType::class, [
+	    			'label' => 'Volume Name: ',
+	    			'trim' => 'true'
+	    	])
+	    	->add('serial', TextType::class, [
+	    			'label' => 'Serial No: ',
+	    			'trim' => 'true'
+	    	])
+	    	->add('copyid', TextType::class, [
+	    			'label' => 'Disk Copy No: '
+	    	])
+	    	->add('descriptiontxt', TextType::class, [
+	    			'label' => 'Contents: '
+	    	])
 	    	->add('createdon', DateType::class, [
+	    			'label' => 'Disk Creation date: ',
 	    			'widget' => 'choice',
 	    			'years' => range(2000, 2020),
 	    	])
-	    	->add('modifiedon', DateType::class)
-	    	->add('save', SubmitType::class, array('label' => 'Create Disk'))
+	    	->add('modifiedon', DateType::class, [
+	    			'label' => 'Disk data modified date: ',
+	    			'widget' => 'single_text',
+	    			'disabled' => 'true'
+	    	])
+	    	->add('save', SubmitType::class, [
+    			'label' => 'Scan Disk',
+    			'attr' => [
+    				'class' => 'btn btn-success'
+    			]
+	    	])
 	    	->getForm();
     	
 	    $form->handleRequest($request);

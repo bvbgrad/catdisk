@@ -37,6 +37,11 @@
   		<version>4.2.4.RELEASE</version>
   	</dependency>
   	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-tx</artifactId>
+	    <version>4.2.4.RELEASE</version>
+    </dependency>
+  	<dependency>
   		<groupId>jstl</groupId>
   		<artifactId>jstl</artifactId>
   		<version>1.2</version>
@@ -87,5 +92,10 @@
 	    <version>3.1.0</version>
 	    <scope>provided</scope>
 	</dependency>
+    <dependency>
+    	<groupId>javax.validation</groupId>
+    	<artifactId>validation-api</artifactId>
+    	<version>1.1.0.Final</version>
+    </dependency>
   </dependencies>
 </project>

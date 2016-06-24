@@ -12,7 +12,7 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
-        <mapping class="org.ll6.utils.catdisk.dao.Disk"/>
+        <mapping class="org.ll6.utils.catdisk.dao.entities.Disk"/>
 
     </session-factory>
 
