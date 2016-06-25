@@ -14,6 +14,8 @@
         
         <br/>Failed URL: ${url} <br/>
         
+        <br/>Error reported: ${currentDate} <br/>
+        
     </div>
 </body>
 </html>

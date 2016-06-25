@@ -2,11 +2,15 @@ package org.ll6.utils.catdisk.controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ll6.utils.catdisk.dao.DiskDao;
+import org.ll6.utils.catdisk.entities.Disk;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CatdiskJsonController {
 	private static final Logger logger = LogManager.getLogger();
+	
+	@Autowired
+	private DiskDao diskDao;
 	
 	@RequestMapping(value="/get")
 	public Map<String, Object> getData(Model model)
@@ -59,4 +66,25 @@ public class CatdiskJsonController {
     	logger.info("getData: {}", data);
         return data;
     }	
+
+    @RequestMapping(value="/getDisks")
+    public void DiskList()
+    {
+    	List<Disk> diskList = diskDao.getAllDisks();
+    	System.out.println("Number of disks: " + diskList.size());
+        for (int i=0; i<10; i++)
+        {
+        	System.out.println(diskList.get(i).toString());
+        }
+        
+        System.out.println("Get range of disks");
+        diskList = diskDao.getSomeDisks(50, 60);
+        for (Disk disk : diskList)
+        {
+        	System.out.println(disk.toString());
+        }
+        
+    	
+    }
+
 }

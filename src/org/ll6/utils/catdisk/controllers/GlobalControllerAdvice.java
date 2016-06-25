@@ -34,6 +34,7 @@ public class GlobalControllerAdvice {
 		String sURL = req.getRequestURL().toString();
 		logger.error("Exception error from URL {}: full stack trace follows:", sURL, e );
 		
+		mav.addObject("currentDate", new Date().toString());
 		mav.addObject("sErrorMsg", e.toString());
 		mav.addObject("url", sURL);
 	    mav.setViewName("errorView");
