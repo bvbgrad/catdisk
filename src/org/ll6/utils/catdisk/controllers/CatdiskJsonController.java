@@ -39,12 +39,6 @@ public class CatdiskJsonController {
 	{
 		logger.info("Get range of disks: {} to {}", start, stop);
         List<Disk> diskList = diskDao.getSomeDisks(start, stop);
-        
-        for (Disk disk : diskList)
-        {
-        	System.out.println(disk.toString());
-        }
-		
 		return new ResponseEntity<List<Disk>>(diskList, HttpStatus.OK);
 	}
 	
@@ -59,9 +53,17 @@ public class CatdiskJsonController {
     @RequestMapping(value="/getVol")
     public String getVolumeData()
     {
+    	Disk disk = readDiskVolumeInfo();	
+        String data = disk.getVolumeName() + ":" + disk.getDiskSerialNum();
+    	logger.info("getVolumeData: {}", data);
+        return data;
+    }
+
+	private Disk readDiskVolumeInfo() {
+		
     	String diskName = "";
     	String diskSerialNumber = "";
-    	try {
+		try {
     		Process p = Runtime.getRuntime().exec("cmd /c vol e:");
     		Scanner sc = new Scanner(p.getInputStream());
     		if (sc.hasNext()) {
@@ -74,22 +76,23 @@ public class CatdiskJsonController {
     		}
     		sc.close();
     		
-    		if (diskName == "" && diskSerialNumber == "")
-    		{
+    		if (diskName == "" && diskSerialNumber == "") {
     			diskName = "No disk";
     			System.out.println(diskName);
     		} else {
     			System.out.println("Disk Name: " + diskName + "\nSerial: " + diskSerialNumber);	    			
     		}
-
     	}
     	catch (IOException e) {
     		System.out.println(e.getMessage());
-    	}	
-        String data = diskName + ":" + diskSerialNumber;
-    	logger.info("getData: {}", data);
-        return data;
-    }	
+    	}
+		
+		Disk disk = new Disk();
+		disk.setVolumeName(diskName);
+		disk.setDiskSerialNum(diskSerialNumber);
+		
+		return disk;
+	}	
 
 
 }
