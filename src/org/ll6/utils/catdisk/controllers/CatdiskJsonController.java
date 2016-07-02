@@ -1,9 +1,7 @@
 package org.ll6.utils.catdisk.controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,8 +9,11 @@ import org.apache.logging.log4j.Logger;
 import org.ll6.utils.catdisk.dao.DiskDao;
 import org.ll6.utils.catdisk.entities.Disk;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,15 +23,38 @@ public class CatdiskJsonController {
 	@Autowired
 	private DiskDao diskDao;
 	
-	@RequestMapping(value="/get")
-	public Map<String, Object> getData(Model model)
+//	@RequestMapping(value="/getDisk/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/getDisk/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Disk> getDisk(@PathVariable("id") long id)
 	{
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("messages", "Message01");
-		data.put("number", 1);
-		logger.info("getData: {}", data);
-		return data;
+		Disk disk = diskDao.getDisk(id);
+		logger.info("getData for id: {} {}", id, disk);
+		
+		return new ResponseEntity<Disk>(disk, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/getDiskRange/{start}/{stop}", method = RequestMethod.GET)
+	public ResponseEntity<List<Disk>> getDiskRange
+		(@PathVariable("start") long start, @PathVariable("stop") long stop)
+	{
+		logger.info("Get range of disks: {} to {}", start, stop);
+        List<Disk> diskList = diskDao.getSomeDisks(start, stop);
+        
+        for (Disk disk : diskList)
+        {
+        	System.out.println(disk.toString());
+        }
+		
+		return new ResponseEntity<List<Disk>>(diskList, HttpStatus.OK);
+	}
+	
+    @RequestMapping(value="/getAllDisks", method = RequestMethod.GET)
+    public ResponseEntity<List<Disk>> DiskList()
+    {
+    	List<Disk> diskList = diskDao.getAllDisks();
+    	logger.info("Get list of all {} disks", diskList.size());
+    	return new ResponseEntity<List<Disk>>(diskList, HttpStatus.OK);
+    }
 	
     @RequestMapping(value="/getVol")
     public String getVolumeData()
@@ -67,24 +91,5 @@ public class CatdiskJsonController {
         return data;
     }	
 
-    @RequestMapping(value="/getDisks")
-    public void DiskList()
-    {
-    	List<Disk> diskList = diskDao.getAllDisks();
-    	System.out.println("Number of disks: " + diskList.size());
-        for (int i=0; i<10; i++)
-        {
-        	System.out.println(diskList.get(i).toString());
-        }
-        
-        System.out.println("Get range of disks");
-        diskList = diskDao.getSomeDisks(50, 60);
-        for (Disk disk : diskList)
-        {
-        	System.out.println(disk.toString());
-        }
-        
-    	
-    }
 
 }
