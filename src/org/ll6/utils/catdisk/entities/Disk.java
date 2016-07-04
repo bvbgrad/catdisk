@@ -42,13 +42,13 @@ public class Disk {
 	private Timestamp createdOn;
 	
 	@Column(name="ModifiedOn")	
-	private Timestamp modfiedOn;
+	private Timestamp modifiedOn;
 
 	@Override
 	public String toString() {
 		return "Disk [diskID=" + diskID + ", volumeName=" + volumeName + ", diskSerialNum=" + diskSerialNum
 				+ ", diskCopyNum=" + diskCopyNum + ", diskDate=" + diskDate + ", descriptionTxt=" + descriptionTxt
-				+ ", locationTxt=" + locationTxt + ", createdOn=" + createdOn + ", modfiedOn=" + modfiedOn + "]";
+				+ ", locationTxt=" + locationTxt + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + "]";
 	}
 
 	public long getDiskID() {
@@ -115,12 +115,12 @@ public class Disk {
 		this.createdOn = createdOn;
 	}
 
-	public Timestamp getModfiedOn() {
-		return modfiedOn;
+	public Timestamp getModifiedOn() {
+		return modifiedOn;
 	}
 
-	public void setModfiedOn(Timestamp modfiedOn) {
-		this.modfiedOn = modfiedOn;
+	public void setModifiedOn(Timestamp modifiedOn) {
+		this.modifiedOn = modifiedOn;
 	}
 	
 	@Override
@@ -134,7 +134,7 @@ public class Disk {
 		result = prime * result + (int) (diskID ^ (diskID >>> 32));
 		result = prime * result + ((diskSerialNum == null) ? 0 : diskSerialNum.hashCode());
 		result = prime * result + ((locationTxt == null) ? 0 : locationTxt.hashCode());
-		result = prime * result + ((modfiedOn == null) ? 0 : modfiedOn.hashCode());
+		result = prime * result + ((modifiedOn == null) ? 0 : modifiedOn.hashCode());
 		result = prime * result + ((volumeName == null) ? 0 : volumeName.hashCode());
 		return result;
 	}
@@ -177,10 +177,10 @@ public class Disk {
 				return false;
 		} else if (!locationTxt.equals(other.locationTxt))
 			return false;
-		if (modfiedOn == null) {
-			if (other.modfiedOn != null)
+		if (modifiedOn == null) {
+			if (other.modifiedOn != null)
 				return false;
-		} else if (!modfiedOn.equals(other.modfiedOn))
+		} else if (!modifiedOn.equals(other.modifiedOn))
 			return false;
 		if (volumeName == null) {
 			if (other.volumeName != null)

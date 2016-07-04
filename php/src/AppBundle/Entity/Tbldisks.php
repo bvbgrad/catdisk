@@ -3,20 +3,21 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tbldisks
  *
- * @ORM\Table(name="tbldisks", indexes={@ORM\Index(name="CopyID", columns={"CopyID"}), @ORM\Index(name="VolumeID", columns={"VolumeID"})})
  * @ORM\Entity
+ * @ORM\Table(name="tbldisks")
  */
 class Tbldisks
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="ID", type="integer")
      * @ORM\Id
+     * @ORM\Column(name="ID", type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
@@ -24,23 +25,30 @@ class Tbldisks
     /**
      * @var string
      *
-     * @ORM\Column(name="Serial", type="string", length=16, nullable=false)
+     * @ORM\Column(name="VolumeName", type="string", length=32, nullable=false)
      */
-    private $serial;
-    
+    private $volumename;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="VolumeID", type="string", length=20, nullable=false)
+     * @ORM\Column(name="DiskSerialNum", type="string", length=16, nullable=false)
      */
-    private $volumeid;
-
+    private $diskserialnum;
+    
     /**
      * @var integer
      *
-     * @ORM\Column(name="CopyID", type="integer", length=4, nullable=false)
+     * @ORM\Column(name="DiskCopyNum", type="integer", length=4, nullable=false)
      */
-    private $copyid = '0';
+    private $diskcopynum = '0';
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="DiskDate", type="date")
+     */
+    private $diskdate;
 
     /**
      * @var string
@@ -83,75 +91,87 @@ class Tbldisks
     }
 
     /**
-     * Set volumeid
+     * Set volumename
      *
-     * @param string $volumeid
+     * @param string $volumename
      *
      * @return Tbldisks
      */
-    public function setVolumeid($volumeid)
+    public function setVolumeName($volumename)
     {
-        $this->volumeid = $volumeid;
+        $this->volumename = $volumename;
 
         return $this;
     }
 
     /**
-     * Get volumeid
+     * Get volumename
      *
      * @return string
      */
-    public function getVolumeid()
+    public function getVolumeName()
     {
-        return $this->volumeid;
+        return $this->volumename;
     }
 
     /**
-     * Set serial
+     * Set diskserialnum
      *
-     * @param string $serial
+     * @param string $diskserialnum
      *
      * @return Tbldisks
      */
-    public function setSerial($serial)
+    public function setDiskSerialNum($diskserialnum)
     {
-        $this->serial = $serial;
+        $this->diskserialnum = $diskserialnum;
 
         return $this;
     }
 
     /**
-     * Get serial
+     * Get diskserialnum
      *
      * @return string
      */
-    public function getSerial()
+    public function getDiskSerialNum()
     {
-        return $this->serial;
+        return $this->diskserialnum;
     }
 
     /**
-     * Set copyid
+     * Set diskcopynum
      *
-     * @param boolean $copyid
+     * @param integer $diskcopynum
      *
      * @return Tbldisks
      */
-    public function setCopyid($copyid)
+    public function setDiskCopyNum($diskcopynum)
     {
-        $this->copyid = $copyid;
+        $this->diskcopynum = $diskcopynum;
 
         return $this;
     }
 
     /**
-     * Get copyid
+     * Get diskcopynum
      *
-     * @return boolean
+     * @return integer
      */
-    public function getCopyid()
+    public function getDiskCopyNum()
     {
-        return $this->copyid;
+        return $this->diskcopynum;
+    }
+
+    public function setDiskDate($diskdate)
+    {
+        $this->diskdate = $diskdate;
+
+        return $this;
+    }
+
+    public function getDiskDate()
+    {
+        return $this->diskdate;
     }
 
     /**
@@ -161,7 +181,7 @@ class Tbldisks
      *
      * @return Tbldisks
      */
-    public function setDescriptiontxt($descriptiontxt)
+    public function setDescriptionTxt($descriptiontxt)
     {
         $this->descriptiontxt = $descriptiontxt;
 
@@ -173,7 +193,7 @@ class Tbldisks
      *
      * @return string
      */
-    public function getDescriptiontxt()
+    public function getDescriptionTxt()
     {
         return $this->descriptiontxt;
     }
@@ -185,7 +205,7 @@ class Tbldisks
      *
      * @return Tbldisks
      */
-    public function setLocationtxt($locationtxt)
+    public function setLocationTxt($locationtxt)
     {
         $this->locationtxt = $locationtxt;
 
@@ -197,53 +217,30 @@ class Tbldisks
      *
      * @return string
      */
-    public function getLocationtxt()
+    public function getLocationTxt()
     {
         return $this->locationtxt;
     }
     
-    /**
-     * Set CreatedOn
-     *
-     * @param string $createdon
-     *
-     * @return Tbldisks
-     */
-    public function setCreatedOn(\DateTime $createdon = null)
+    public function setCreatedOn($createdon)
     {
         $this->createdon = $createdon;
 
         return $this;
     }
 
-    /**
-     * Get $createdon
-     *
-     * @return DateTime
-     */
     public function getCreatedOn()
     {
         return $this->createdon;
     }
-    /**
-     * Set ModifiedOn
-     *
-     * @param string $modifiedon
-     *
-     * @return Tbldisks
-     */    
-    public function setModifiedOn(\DateTime $modifiedon = null)
+
+    public function setModifiedOn($modifiedon)
     {
         $this->modifiedon = $modifiedon;
 
         return $this;
     }
 
-    /**
-     * Get $modifiedon
-     *
-     * @return DateTime
-     */
     public function getModifiedOn()
     {
         return $this->modifiedon;

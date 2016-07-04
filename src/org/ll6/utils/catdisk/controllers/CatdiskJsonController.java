@@ -51,12 +51,14 @@ public class CatdiskJsonController {
     }
 	
     @RequestMapping(value="/getVol")
-    public String getVolumeData()
+//    public String getVolumeData()
+    public Disk getVolumeData()
     {
     	Disk disk = readDiskVolumeInfo();	
         String data = disk.getVolumeName() + ":" + disk.getDiskSerialNum();
+        logger.info("getVolumeData: {}", disk);
     	logger.info("getVolumeData: {}", data);
-        return data;
+        return disk;
     }
 
 	private Disk readDiskVolumeInfo() {
