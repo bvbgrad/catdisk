@@ -3,17 +3,13 @@
 {% block title %}DiskScan{% endblock %}
 
 {% block body %}
+
+<div class="starter-template">
+	<h1 class="lead"> Information for disk # {{ diskID }} </h1>
+</div>
+
 {{ form_start(form) }}
 {{ form_widget(form) }}
 {{ form_end(form) }}
-
-<br><button type="button" class="btn btn-sm btn-success">Default</button>
-
-<br>
-<p>The Volume String is "{{ volume }}"
-<br>The Volume ID is "{{ volumeName }}"
-<br>The Volume Serial is "{{ volumeSerial }}"
-
-{# <p>{{ dump() }}#}
 
 {% endblock %}

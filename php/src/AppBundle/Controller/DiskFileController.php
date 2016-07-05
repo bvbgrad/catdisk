@@ -13,19 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DiskFileController extends Controller
 {
 	/**
-	 * @Route("/disk")
+	 * @Route("/disk/{diskID}")
 	 */
-	public function formDiskInfoAction(Request $request)
+	public function formDiskInfoAction(Request $request, $diskID)
 	{
-		$dirPath = dir(getcwd())->path;
-		$path = realpath($dirPath);
-		
-	    $format = 'l jS \of F Y h:i:s A';
-		$now = date($format);
-		$dateTS = time();
-		dump($dateTS);
-		
-	    $json = file_get_contents("http://localhost:8080/catdisk/getDisk/299");
+	    $json = file_get_contents("http://localhost:8080/catdisk/getDisk/".$diskID);
 	    $diskData = json_decode($json, TRUE);
 	    if (json_last_error() === JSON_ERROR_NONE) {
 	    	//do something with $json. It's ready to use
@@ -34,22 +26,15 @@ class DiskFileController extends Controller
 	    	//yep, it's not JSON. Log error or alert someone or do nothing
 		    dump(json_last_error());
 	    }
-	    
-	    $volumeName = $diskData['volumeName'];
-	    $volumeSerial = $diskData['diskSerialNum'];
-	    
-// 	    $date = date($diskData['diskDate']/1000);
-// 	    $date = new DateTime(date("Y-m-d", $diskData['diskDate']/1000));
-// 		$date = new DateTime('2000-01-01');
 
-
-	    $date = date('Y-m-d', $diskData['diskDate']/1000);
-	    dump($date);
-	    
 	    $disk = new Disk();
 	    $disk->setVolumeName($diskData['volumeName']);
-	    $disk->setDiskSerialNum($diskData['diskSerialNum']);
-	    $disk->setDiskCopyNum($diskData['diskCopyNum']);
+	    $diskData['diskSerialNum'] === ""? 
+	    	$disk->setDiskSerialNum('xxxx-xxxx'):
+		    $disk->setDiskSerialNum($diskData['diskSerialNum']);
+	    $diskData['diskCopyNum'] === Null? 
+	    	$disk->setDiskCopyNum(0):
+		    $disk->setDiskCopyNum($diskData['diskCopyNum']);
 	    $diskData['diskDate'] === Null? 
 	    	$disk->setDiskDate($dateTS):
 	    	$disk->setDiskDate($diskData['diskDate']/1000);
@@ -70,12 +55,10 @@ class DiskFileController extends Controller
 	    
 	    $form = $this->createFormBuilder($disk)
 	    	->add('volumename', TextType::class, [
-	    			'label' => 'Volume Name: ',
-	    			'trim' => 'true'
+	    			'label' => 'Volume Name: '
 	    	])
 	    	->add('diskserialnum', TextType::class, [
-	    			'label' => 'Serial No: ',
-	    			'trim' => 'true'
+	    			'label' => 'Serial No: '
 	    	])
 	    	->add('diskcopynum', IntegerType::class, [
 	    			'label' => 'Disk Copy No: '
@@ -105,7 +88,7 @@ class DiskFileController extends Controller
 	    			'disabled' => 'true'
 	    	])
 	    	->add('save', SubmitType::class, [
-    			'label' => 'Scan Disk',
+    			'label' => 'Update Disk Information',
     			'attr' => [
     				'class' => 'btn btn-success'
     			]
@@ -121,14 +104,12 @@ class DiskFileController extends Controller
 //     		return $this->redirectToRoute('task_success');
     	}
     	
-	    	
+    	$format = 'l jS \of F Y h:i:s A';
+    	$now = date($format);	    	
 	   	return $this->render('diskfile/disk.html.twig', array(
             'form' => $form->createView(),
-   			'volume' => $volumeName,
-   			'volumeName' => $volumeName,
-   			'volumeSerial' => $volumeSerial,
+	   		'diskID' => $diskID,
    			'now' => $now,
-   			'path' => $path,
         ));
 
 	}
