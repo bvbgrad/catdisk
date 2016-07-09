@@ -49,7 +49,14 @@ public class CatdiskJsonController {
     	logger.info("Get list of all {} disks", diskList.size());
     	return new ResponseEntity<List<Disk>>(diskList, HttpStatus.OK);
     }
-	
+
+    @RequestMapping(value="/getDiskCount", method = RequestMethod.GET)
+    public long getDiskCount()
+    {
+    	long diskCount = diskDao.getDiskCount();
+    	return diskCount;
+    }
+    
     @RequestMapping(value="/getVol")
 //    public String getVolumeData()
     public Disk getVolumeData()

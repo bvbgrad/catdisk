@@ -13,7 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DiskFileController extends Controller
 {
 	/**
-	 * @Route("/disk/{diskID}")
+	 * @Route("/disk/{diskID}", 
+	 * 		defaults={"diskID" = 1}
+	 * )
 	 */
 	public function formDiskInfoAction(Request $request, $diskID)
 	{
@@ -36,7 +38,7 @@ class DiskFileController extends Controller
 	    	$disk->setDiskCopyNum(0):
 		    $disk->setDiskCopyNum($diskData['diskCopyNum']);
 	    $diskData['diskDate'] === Null? 
-	    	$disk->setDiskDate($dateTS):
+	    	$disk->setDiskDate(time()):
 	    	$disk->setDiskDate($diskData['diskDate']/1000);
 	    $diskData['descriptionTxt'] === Null? 
 	    	$disk->setDescriptionTxt('new disk'):
@@ -45,10 +47,10 @@ class DiskFileController extends Controller
 	    	$disk->setLocationTxt('TBD'):
 	    	$disk->setLocationTxt($diskData['locationTxt']);
 	    $diskData['createdOn'] === Null? 
-		    $disk->setCreatedOn($dateTS):
+		    $disk->setCreatedOn(time()):
 	    	$disk->setCreatedOn($diskData['createdOn']/1000);
 	    $diskData['modifiedOn'] === Null? 
-		    $disk->setModifiedOn($dateTS):
+		    $disk->setModifiedOn(time()):
 	    	$disk->setModifiedOn($diskData['modifiedOn']/1000);
 	    
 	    dump($disk);
@@ -104,12 +106,9 @@ class DiskFileController extends Controller
 //     		return $this->redirectToRoute('task_success');
     	}
     	
-    	$format = 'l jS \of F Y h:i:s A';
-    	$now = date($format);	    	
 	   	return $this->render('diskfile/disk.html.twig', array(
             'form' => $form->createView(),
 	   		'diskID' => $diskID,
-   			'now' => $now,
         ));
 
 	}

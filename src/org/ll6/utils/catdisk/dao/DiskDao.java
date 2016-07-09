@@ -11,6 +11,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.ll6.utils.catdisk.entities.Disk;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class DiskDao {
 		session().save(Disk);
 		return Disk.getDiskID();  // Caller usually needs ID number
 
+	}
+	
+	public long getDiskCount() 
+	{
+		long diskCount = (long) session().createQuery(
+			"select count(*) from Disk")
+			.uniqueResult();
+		logger.info("getDiskCount : {}", diskCount);
+		
+		return diskCount;
 	}
 	
 	public Disk getDisk(long id) {
