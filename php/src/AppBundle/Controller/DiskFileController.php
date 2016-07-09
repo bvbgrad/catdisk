@@ -12,8 +12,42 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DiskFileController extends Controller
 {
+
 	/**
-	 * @Route("/disk/{diskID}", 
+	 * @Route("/diskfile/manage" 
+	 * )
+	 */
+	public function diskManageAction(Request $request)
+	{
+	    $form = $this->createFormBuilder()
+	        ->add('disks', TextType::class, [
+	    			'label' => 'Disk(s): '
+	    	])
+	        ->add('save', SubmitType::class, 
+	        	[
+	        		'label' => 'Get Disk Information',
+	        		'attr' => [
+	        			'class' => 'btn btn-success'
+	        		]
+	        	]
+	        )
+	        ->getForm();
+	
+	    $form->handleRequest($request);
+	
+	    if ($form->isValid()) {
+	        $data = $form->getData();
+	        return $this->redirectToRoute("disk", array('diskID' => $data['disks']));
+		}
+
+		return $this->render('diskfile/diskmanage.html.twig', array(
+            'form' => $form->createView(),
+			
+        ));		
+	}
+
+	/**
+	 * @Route("/disk/{diskID}", name="disk",
 	 * 		defaults={"diskID" = 1}
 	 * )
 	 */
