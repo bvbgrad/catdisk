@@ -27,13 +27,16 @@
       </tr>
     </thead>
     <tbody>
-		{% for i in 1 .. count-1 %}
+		{% for i in 0 .. count-1 %}
 	      <tr>
 			{% for celldata in disks[i] %}
 		       <td> {{ celldata }} </td>
 			{% endfor %}
-		       <td> Edit </td>
-		       <td> Delete </td>
+			{% set diskEditID = 8 %}
+			<td> <a class="btn btn-info" 
+				href="{{path('home')}}disk/{{ diskEditID }}" class="list-group-item">
+				  	Edit</a> </td>
+			<td> Delete </td>
 			
 	      </tr>
 		{% endfor %}
