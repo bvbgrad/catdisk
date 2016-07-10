@@ -19,10 +19,21 @@ class DiskFileController extends Controller
 	 */
 	public function diskManageAction(Request $request)
 	{
-	    $form = $this->createFormBuilder()
-	        ->add('disks', TextType::class, [
-	    			'label' => 'Disk(s): '
+
+		$json = file_get_contents("http://localhost:8080/catdisk/getDiskCount");
+		$diskCount = json_decode($json, TRUE);
+		
+		$defaultData = array('start' => '1', 'stop' => '0', 'page' => '25');
+		$form = $this->createFormBuilder($defaultData)
+	        ->add('start', IntegerType::class, [
+	    			'label' => 'Disk start number: '
 	    	])
+	        ->add('stop', IntegerType::class, [
+	    			'label' => 'Disk stop number: '
+	    	])
+// 	        ->add('page', IntegerType::class, [
+// 	    			'label' => 'Number per page: ',
+// 	    	])
 	        ->add('save', SubmitType::class, 
 	        	[
 	        		'label' => 'Get Disk Information',
@@ -35,17 +46,60 @@ class DiskFileController extends Controller
 	
 	    $form->handleRequest($request);
 	
-	    if ($form->isValid()) {
+	    if ($form->isValid() && $form->isSubmitted()) {
 	        $data = $form->getData();
-	        return $this->redirectToRoute("disk", array('diskID' => $data['disks']));
+	        
+	        $start = $data['start'];
+	        $stop = $data['stop'];
+	        
+	        if ($stop == 0)
+	        {
+		        return $this->redirectToRoute("disk", array('diskID' => $start));
+	        } else
+	        {
+		        return $this->redirectToRoute("diskrange", array('start' => $start, 'stop' => $stop));
+	        }
+	        
+	        
 		}
 
 		return $this->render('diskfile/diskmanage.html.twig', array(
             'form' => $form->createView(),
+			'diskCount' => $diskCount
 			
         ));		
 	}
 
+	/**
+	 * @Route("/diskrange/{start}/{stop}", name="diskrange",
+	 * 		defaults={"start" = 1, "stop" = 10}
+	 * )
+	 */
+	public function formDiskListRangeAction(Request $request, $start, $stop)
+	{
+		$json = file_get_contents("http://localhost:8080/catdisk/getDiskCount");
+		$diskCount = json_decode($json, TRUE);
+		
+		$json = file_get_contents
+	    	("http://localhost:8080/catdisk/getDiskRange/".$start."/".$stop);
+	    $diskData = json_decode($json, TRUE);
+	    if (json_last_error() === JSON_ERROR_NONE) {
+	    	//do something with $json. It's ready to use
+		    dump($diskData);
+	    } else {
+	    	//yep, it's not JSON. Log error or alert someone or do nothing
+		    dump(json_last_error());
+	    }
+
+		return $this->render('diskfile/diskrange.html.twig', array(
+			'diskCount' => $diskCount,
+			'start' => $start,
+			'end' => $stop,
+			'count' => $stop - $start +1,
+			'disks' => $diskData
+        ));		
+	}
+	
 	/**
 	 * @Route("/disk/{diskID}", name="disk",
 	 * 		defaults={"diskID" = 1}

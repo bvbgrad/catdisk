@@ -66,11 +66,11 @@ public class DiskDao {
 	
 	public List<Disk> getSomeDisks(long start, long end)
 	{
-		long idRange = end - start;
+		long idRange = end - start +1;
 		logger.info("get " + idRange + " disks:  starting with: " + start);	
 		Criteria crit = session().createCriteria(Disk.class);
-		crit.add(Restrictions.gt("id", start));
-		crit.add(Restrictions.lt("id", end));
+		crit.add(Restrictions.gt("id", start - 1)); // have to offset index to get
+		crit.add(Restrictions.lt("id", end + 1));	// the entire range requested
 		return crit.list();
 	}
 	

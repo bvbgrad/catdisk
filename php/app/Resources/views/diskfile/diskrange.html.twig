@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Disks{% endblock %}
+
+{% block body %}
+
+<div class="starter-template">
+	<h1 class="lead"> List a range of disks </h1>
+	<br>There are {{ diskCount }} disks in the catalog. </br>
+	<br> There are {{ count }} disks in this list starting with disk #{{ start }}. </br>
+</div>
+
+  <table class="table table-bordered table-striped table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Volume</th>
+        <th>Serial</th>
+        <th>Copy</th>
+        <th>Disk Created</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Record Created</th>
+        <th>Record Modified</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+		{% for i in 1 .. count-1 %}
+	      <tr>
+			{% for celldata in disks[i] %}
+		       <td> {{ celldata }} </td>
+			{% endfor %}
+		       <td> Edit </td>
+		       <td> Delete </td>
+			
+	      </tr>
+		{% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+       
+{% endblock %}
