@@ -1,6 +1,7 @@
 package org.ll6.utils.catdisk.configuration;
 
 import javax.naming.NamingException;
+import javax.persistence.Entity;
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;

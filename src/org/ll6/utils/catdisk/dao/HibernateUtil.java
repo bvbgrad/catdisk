@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.ll6.utils.catdisk.entities.Disk;
+import org.ll6.utils.catdisk.entities.FileData;
 
 public class HibernateUtil {
 	private static final Logger logger = LogManager.getLogger();
@@ -18,6 +19,7 @@ public class HibernateUtil {
 		try {
 			Configuration configuration = new Configuration();
 			configuration.addAnnotatedClass(Disk.class);
+			configuration.addAnnotatedClass(FileData.class);
 			return configuration
 					.buildSessionFactory(new StandardServiceRegistryBuilder()
 							.build());

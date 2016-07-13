@@ -10,11 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.ll6.utils.catdisk.entities.Disk;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +22,6 @@ import org.springframework.stereotype.Repository;
 public class DiskDao {
 	private static final Logger logger = LogManager.getLogger();
 
-//	@Autowired
-//	private SessionFactory sessionFactory;
 	public Session session() 
 	{
 //		return sessionFactory.getCurrentSession();

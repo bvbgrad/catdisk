@@ -22,8 +22,9 @@
         <th>Location</th>
         <th>Record Created</th>
         <th>Record Modified</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>Show Files</th>
+        <th>Edit Record</th>
+        <th>Delete Record</th>
       </tr>
     </thead>
     <tbody>
@@ -32,11 +33,16 @@
 			{% for celldata in disks[i] %}
 		       <td> {{ celldata }} </td>
 			{% endfor %}
-			{% set diskEditID = 8 %}
+			{% set diskEditID = disks[i]['diskID'] %}
 			<td> <a class="btn btn-info" 
+				href="{{path('home')}}files/{{ diskEditID }}" class="list-group-item">
+				  	Files</a> </td>
+			<td> <a class="btn btn-warning" 
 				href="{{path('home')}}disk/{{ diskEditID }}" class="list-group-item">
 				  	Edit</a> </td>
-			<td> Delete </td>
+			<td> <a class="btn btn-danger" 
+				href="{{path('home')}}delete/{{ diskEditID }}" class="list-group-item">
+				  	Delete</a> </td>
 			
 	      </tr>
 		{% endfor %}

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CatdiskJsonController {
+public class DiskJsonController {
 	private static final Logger logger = LogManager.getLogger();
 	
 	@Autowired

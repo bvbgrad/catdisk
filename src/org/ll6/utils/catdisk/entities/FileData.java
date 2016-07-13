@@ -11,32 +11,34 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table (name="tbldisks")
-public class Disk {
+@Table (name="tblfiles")
+public class FileData {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
+	private long ID;
+	
+	@Column(name="DiskID")
 	private long diskID;
 	
 	@Column(name="VolumeName")
 	private String volumeName;
 	
-
-	@Column(name="DiskSerialNum")
-	private String diskSerialNum;
-	
 	@Column(name="DiskCopyNum")
 	private int diskCopyNum;
 	
-	@Column(name="DiskDate")	
-	private Date diskDate;
+	@Column(name="FileName")	
+	private String fileName;
 	
-	@Column(name="DescriptionTxt")	
-	private String descriptionTxt;
+	@Column(name="FilePath")	
+	private String filePath;
 	
-	@Column(name="LocationTxt")	
-	private String locationTxt;
+	@Column(name="DateCreated")	
+	private Date datecreated;
+	
+	@Column(name="FileLength")	
+	private Integer fileLength;
 	
 	@Column(name="CreatedOn")	
 	private Timestamp createdOn;
@@ -44,14 +46,18 @@ public class Disk {
 	@Column(name="ModifiedOn")	
 	private Timestamp modifiedOn;
 
-	public Disk() {
+	public FileData() {
 	}
 
 	@Override
 	public String toString() {
-		return "Disk [diskID=" + diskID + ", volumeName=" + volumeName + ", diskSerialNum=" + diskSerialNum
-				+ ", diskCopyNum=" + diskCopyNum + ", diskDate=" + diskDate + ", descriptionTxt=" + descriptionTxt
-				+ ", locationTxt=" + locationTxt + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + "]";
+		return "File [fileID=" + ID + ", diskID=" + diskID + ", volumeName=" + volumeName + ", diskCopyNum="
+				+ diskCopyNum + ", fileName=" + fileName + ", filePath=" + filePath + ", datecreated=" + datecreated
+				+ ", fileLength=" + fileLength + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + "]";
+	}
+
+	public long getID() {
+		return ID;
 	}
 
 	public long getDiskID() {
@@ -70,14 +76,6 @@ public class Disk {
 		this.volumeName = volumeName;
 	}
 
-	public String getDiskSerialNum() {
-		return diskSerialNum;
-	}
-
-	public void setDiskSerialNum(String diskSerialNum) {
-		this.diskSerialNum = diskSerialNum;
-	}
-
 	public int getDiskCopyNum() {
 		return diskCopyNum;
 	}
@@ -86,28 +84,36 @@ public class Disk {
 		this.diskCopyNum = diskCopyNum;
 	}
 
-	public Date getDiskDate() {
-		return diskDate;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setDiskDate(Date diskDate) {
-		this.diskDate = diskDate;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
-	public String getDescriptionTxt() {
-		return descriptionTxt;
+	public String getFilePath() {
+		return filePath;
 	}
 
-	public void setDescriptionTxt(String descriptionTxt) {
-		this.descriptionTxt = descriptionTxt;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
-	public String getLocationTxt() {
-		return locationTxt;
+	public Date getDatecreated() {
+		return datecreated;
 	}
 
-	public void setLocationTxt(String locationTxt) {
-		this.locationTxt = locationTxt;
+	public void setDatecreated(Date datecreated) {
+		this.datecreated = datecreated;
+	}
+
+	public Integer getFileLength() {
+		return fileLength;
+	}
+
+	public void setFileLength(Integer fileLength) {
+		this.fileLength = fileLength;
 	}
 
 	public Timestamp getCreatedOn() {
@@ -125,18 +131,19 @@ public class Disk {
 	public void setModifiedOn(Timestamp modifiedOn) {
 		this.modifiedOn = modifiedOn;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdOn == null) ? 0 : createdOn.hashCode());
-		result = prime * result + ((descriptionTxt == null) ? 0 : descriptionTxt.hashCode());
+		result = prime * result + ((datecreated == null) ? 0 : datecreated.hashCode());
 		result = prime * result + diskCopyNum;
-		result = prime * result + ((diskDate == null) ? 0 : diskDate.hashCode());
 		result = prime * result + (int) (diskID ^ (diskID >>> 32));
-		result = prime * result + ((diskSerialNum == null) ? 0 : diskSerialNum.hashCode());
-		result = prime * result + ((locationTxt == null) ? 0 : locationTxt.hashCode());
+		result = prime * result + (int) (ID ^ (ID >>> 32));
+		result = prime * result + ((fileLength == null) ? 0 : fileLength.hashCode());
+		result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+		result = prime * result + ((filePath == null) ? 0 : filePath.hashCode());
 		result = prime * result + ((modifiedOn == null) ? 0 : modifiedOn.hashCode());
 		result = prime * result + ((volumeName == null) ? 0 : volumeName.hashCode());
 		return result;
@@ -150,35 +157,37 @@ public class Disk {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Disk other = (Disk) obj;
+		FileData other = (FileData) obj;
 		if (createdOn == null) {
 			if (other.createdOn != null)
 				return false;
 		} else if (!createdOn.equals(other.createdOn))
 			return false;
-		if (descriptionTxt == null) {
-			if (other.descriptionTxt != null)
+		if (datecreated == null) {
+			if (other.datecreated != null)
 				return false;
-		} else if (!descriptionTxt.equals(other.descriptionTxt))
+		} else if (!datecreated.equals(other.datecreated))
 			return false;
 		if (diskCopyNum != other.diskCopyNum)
 			return false;
-		if (diskDate == null) {
-			if (other.diskDate != null)
-				return false;
-		} else if (!diskDate.equals(other.diskDate))
-			return false;
 		if (diskID != other.diskID)
 			return false;
-		if (diskSerialNum == null) {
-			if (other.diskSerialNum != null)
-				return false;
-		} else if (!diskSerialNum.equals(other.diskSerialNum))
+		if (ID != other.ID)
 			return false;
-		if (locationTxt == null) {
-			if (other.locationTxt != null)
+		if (fileLength == null) {
+			if (other.fileLength != null)
 				return false;
-		} else if (!locationTxt.equals(other.locationTxt))
+		} else if (!fileLength.equals(other.fileLength))
+			return false;
+		if (fileName == null) {
+			if (other.fileName != null)
+				return false;
+		} else if (!fileName.equals(other.fileName))
+			return false;
+		if (filePath == null) {
+			if (other.filePath != null)
+				return false;
+		} else if (!filePath.equals(other.filePath))
 			return false;
 		if (modifiedOn == null) {
 			if (other.modifiedOn != null)
@@ -192,5 +201,7 @@ public class Disk {
 			return false;
 		return true;
 	}
+
+
 
 }
