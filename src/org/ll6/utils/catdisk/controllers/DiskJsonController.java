@@ -35,10 +35,10 @@ public class DiskJsonController {
 	
 	@RequestMapping(value="/getDiskRange/{start}/{stop}", method = RequestMethod.GET)
 	public ResponseEntity<List<Disk>> getDiskRange
-		(@PathVariable("start") long start, @PathVariable("stop") long stop)
+	(@PathVariable("start") long start, @PathVariable("stop") long stop)
 	{
 		logger.info("Get range of disks: {} to {}", start, stop);
-        List<Disk> diskList = diskDao.getSomeDisks(start, stop);
+		List<Disk> diskList = diskDao.getSomeDisks(start, stop);
 		return new ResponseEntity<List<Disk>>(diskList, HttpStatus.OK);
 	}
 	
@@ -58,7 +58,6 @@ public class DiskJsonController {
     }
     
     @RequestMapping(value="/getVol")
-//    public String getVolumeData()
     public Disk getVolumeData()
     {
     	Disk disk = readDiskVolumeInfo();	

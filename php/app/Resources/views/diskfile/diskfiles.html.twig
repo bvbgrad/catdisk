@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Disks{% endblock %}
+
+{% block body %}
+
+<div class="starter-template">
+	<h1 class="lead"> List of files for disk {{ diskID }} </h1>
+	<br>There are {{ diskFileCount }} files in the list</br>
+{# 	<br> {{ volumeName }}, copy number {{ copyNum }}. </br>#}
+</div>
+
+  <table class="table table-bordered table-striped table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>Disk ID</th>
+        <th>Volume</th>
+        <th>Copy</th>
+        <th>File Name</th>
+        <th>File Path</th>
+        <th>Date Created</th>
+        <th>File Length</th>
+        <th>Record Created</th>
+        <th>Record Modified</th>
+        <th>File ID</th>
+      </tr>
+    </thead>
+    <tbody>
+		{% for i in 0 .. diskFileCount-1 %}
+	      <tr>
+			{% for celldata in files[i] %}
+		       <td> {{ celldata }} </td>
+			{% endfor %}
+	      </tr>
+		{% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+       
+{% endblock %}

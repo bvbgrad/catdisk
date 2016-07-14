@@ -71,6 +71,53 @@ class DiskFileController extends Controller
 	}
 
 	/**
+	 * @Route("/diskfiles/{diskID}", name="diskfiles",
+	 *	defaults={"diskID" = 1})
+	 * )
+	 */
+	public function formDiskFilesAction(Request $request, $diskID)
+	{
+		$json = file_get_contents
+			("http://localhost:8080/catdisk/getFileCount");
+		$fileCount = json_decode($json, TRUE);
+		dump($fileCount);
+		dump($diskID);
+		
+		$json = file_get_contents
+	    	("http://localhost:8080/catdisk/getFiles/".$diskID);
+	    $fileData = json_decode($json, TRUE);
+	    if (json_last_error() === JSON_ERROR_NONE) {
+	    	//do something with $json. It's ready to use
+		    dump($fileData);
+		    foreach ($fileData as &$a) 
+		    {
+		    	$a['datecreated'] = date("Y-m-d", $a['datecreated']/1000);
+		    	$a['createdOn'] = date("Y-m-d", $a['createdOn']/1000);
+		    	$a['modifiedOn'] = date("Y-m-d", $a['modifiedOn']/1000);
+		    };
+	    	unset($a);
+	    	dump ($fileData);
+	
+			return $this->render('diskfile/diskfiles.html.twig', array(
+				'diskFileCount' => 3,
+				'diskID' => $diskID,
+				'files' => $fileData
+	        ));		
+	    } else {
+	    	//yep, it's not JSON. Log error or alert someone or do nothing
+		    dump(json_last_error());
+		    dump(json_last_error_msg());
+		    
+		    $msg = "<script> alert('json error: '.json_last_error_msg()) </script>";
+		    echo $msg;
+		    
+		    return $this->render('menu/home.html.twig', array(
+		    		'fileCount' => $fileCount
+		    ));
+	    }
+	}
+	
+	/**
 	 * @Route("/diskrange/{start}/{end}", name="diskrange",
 	 * 		defaults={"start" = 1, "end" = 10}
 	 * )

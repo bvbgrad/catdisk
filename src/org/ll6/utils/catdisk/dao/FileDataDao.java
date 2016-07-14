@@ -63,16 +63,26 @@ public class FileDataDao {
 	public List<FileData> getSomeFiles(long start, long end)
 	{
 		long idRange = end - start +1;
-		logger.info("get " + idRange + " filess:  starting with: " + start);	
+		logger.info("get " + idRange + " files:  starting with: " + start);	
 		Criteria crit = session().createCriteria(FileData.class);
 		crit.add(Restrictions.gt("id", start - 1)); // have to offset index to get
 		crit.add(Restrictions.lt("id", end + 1));	// the entire range requested
 		return crit.list();
 	}
 	
-	public List<FileData> getAllFiles(long id) {
-		logger.info("getAllFiles");	
-		return session().createQuery("from Files where diskID = id").list();
+	public List<FileData> getDiskFiles(String volumeName, int copyNum) {
+		logger.info("get files for {} : {}: ", volumeName, copyNum);	
+		Criteria crit = session().createCriteria(FileData.class);
+		crit.add(Restrictions.eq("volumeName", volumeName));
+		crit.add(Restrictions.eq("diskCopyNum", copyNum));	
+		return crit.list();
+	}
+
+	public List<FileData> getFiles(long id) {
+		logger.info("getFiles for disk # {}", id);	
+		Criteria crit = session().createCriteria(FileData.class);
+		crit.add(Restrictions.eq("diskID", id));
+		return crit.list();
 	}
 
 	public void saveOrUpdate(FileData fileData) {
