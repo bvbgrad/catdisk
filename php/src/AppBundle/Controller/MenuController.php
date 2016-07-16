@@ -21,17 +21,24 @@ class MenuController extends Controller
 			//yep, it's not JSON. Log error or alert someone or do nothing
 			dump(json_last_error());
 		}
+		
+		$json = file_get_contents
+		("http://localhost:8080/catdisk/getFileCount");
+		$fileCount = json_decode($json, TRUE);
+		
 		return $this->render('menu/home.html.twig', array(
-	   		'diskCount' => $diskCount
+	   		'diskCount' => $diskCount,
+			'fileCount' => $fileCount,
+			'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
         ));
 	}
 	
 	/**
-	 * @Route("/menu", name = "menu_list")
+	 * @Route("/menu/mainmenu", name = "mainmenu")
 	 */
-	public function listAction()
+	public function mainMenuAction()
 	{
-		return $this->render('menu/menu.html.twig');
+		return $this->render('menu/mainmenu.html.twig');
 	}
 	
 	/**

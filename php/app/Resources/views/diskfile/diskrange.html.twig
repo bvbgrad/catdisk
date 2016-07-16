@@ -35,13 +35,13 @@
 			{% endfor %}
 			{% set diskEditID = disks[i]['diskID'] %}
 			<td> <a class="btn btn-info" 
-				href="{{path('home')}}diskfiles/{{ diskEditID }}" class="list-group-item">
+				href="{{path('home')}}diskfile/diskfiles/{{ diskEditID }}" class="list-group-item">
 				  	Files</a> </td>
 			<td> <a class="btn btn-warning" 
-				href="{{path('home')}}disk/{{ diskEditID }}" class="list-group-item">
+				href="{{path('home')}}diskfile/diskinfo/{{ diskEditID }}" class="list-group-item">
 				  	Edit</a> </td>
 			<td> <a class="btn btn-danger" 
-				href="{{path('home')}}delete/{{ diskEditID }}" class="list-group-item">
+				href="{{path('home')}}diskfile/diskdelete/{{ diskEditID }}" class="list-group-item">
 				  	Delete</a> </td>
 			
 	      </tr>

@@ -14,8 +14,7 @@ class DiskFileController extends Controller
 {
 
 	/**
-	 * @Route("/diskfile/manage" 
-	 * )
+	 * @Route("/diskfile/manage", name="diskfile_manage")
 	 */
 	public function diskManageAction(Request $request)
 	{
@@ -54,10 +53,10 @@ class DiskFileController extends Controller
 	        
 	        if ($end == 0)
 	        {
-		        return $this->redirectToRoute("disk", array('diskID' => $start));
+		        return $this->redirectToRoute("diskfile_diskinfo", array('diskID' => $start));
 	        } else
 	        {
-		        return $this->redirectToRoute("diskrange", array('start' => $start, 'end' => $end));
+		        return $this->redirectToRoute("diskfile_diskrange", array('start' => $start, 'end' => $end));
 	        }
 	        
 	        
@@ -71,7 +70,7 @@ class DiskFileController extends Controller
 	}
 
 	/**
-	 * @Route("/diskfiles/{diskID}", name="diskfiles",
+	 * @Route("/diskfile/diskfiles/{diskID}", name="diskfile_diskfiles",
 	 *	defaults={"diskID" = 1})
 	 * )
 	 */
@@ -118,11 +117,11 @@ class DiskFileController extends Controller
 	}
 	
 	/**
-	 * @Route("/diskrange/{start}/{end}", name="diskrange",
+	 * @Route("/diskfile/diskrange/{start}/{end}", name="diskfile_diskrange",
 	 * 		defaults={"start" = 1, "end" = 10}
 	 * )
 	 */
-	public function formDiskListRangeAction(Request $request, $start, $end)
+	public function formDiskRangeAction(Request $request, $start, $end)
 	{
 		$json = file_get_contents("http://localhost:8080/catdisk/getDiskCount");
 		$diskCount = json_decode($json, TRUE);
@@ -165,7 +164,7 @@ class DiskFileController extends Controller
 	}
 	
 	/**
-	 * @Route("/disk/{diskID}", name="disk",
+	 * @Route("/diskfile/diskinfo/{diskID}", name="diskfile_diskinfo",
 	 * 		defaults={"diskID" = 1}
 	 * )
 	 */
@@ -258,7 +257,7 @@ class DiskFileController extends Controller
 //     		return $this->redirectToRoute('task_success');
     	}
     	
-	   	return $this->render('diskfile/disk.html.twig', array(
+	   	return $this->render('diskfile/diskinfo.html.twig', array(
             'form' => $form->createView(),
 	   		'diskID' => $diskID,
         ));
