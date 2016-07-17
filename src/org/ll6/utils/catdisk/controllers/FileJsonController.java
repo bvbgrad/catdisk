@@ -1,10 +1,13 @@
 package org.ll6.utils.catdisk.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ll6.utils.catdisk.dao.DiskDao;
 import org.ll6.utils.catdisk.dao.FileDataDao;
+import org.ll6.utils.catdisk.entities.Disk;
 import org.ll6.utils.catdisk.entities.FileData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +22,41 @@ public class FileJsonController {
 	private static final Logger logger = LogManager.getLogger();
 	
 	@Autowired
+	private DiskDao diskDao;
+	
+	@Autowired
 	private FileDataDao fileDataDao;
+	
+	@RequestMapping(value="/addDiskID", method = RequestMethod.GET)
+	public int addDiskID()
+	{
+		List<Disk> disks = new ArrayList<Disk>();
+		List<FileData> files = new ArrayList<FileData>();
+		int numFiles = 0;
+		
+		for (long i = 1; i < 3; i++) {
+			
+			Disk disk = diskDao.getDisk(i);
+			logger.info("addDiskID for id: {} {}", i, disk);
+			disks.add(disk);
+
+			String volumeName = disk.getVolumeName();
+			int copyNum = disk.getDiskCopyNum();
+			logger.info("Get files for disk: '{}:{}'", volumeName, copyNum);
+	        List<FileData> fileList = fileDataDao.getDiskFiles(volumeName, copyNum);
+			numFiles = numFiles + fileList.size();
+			System.out.println(fileList.size() + " files for Disk " +i);
+			
+			for(FileData file: fileList) {
+				file.setDiskID(i);
+				fileDataDao.saveOrUpdate(file);
+				System.out.println("Disk " + i + ": " + "file: " + file );
+				files.add(file);
+			}
+		}
+		
+		return numFiles;
+	}
 	
 	@RequestMapping(value="/getFile/{id}", method = RequestMethod.GET)
 	public ResponseEntity<FileData> getFileData(@PathVariable("id") long id)
