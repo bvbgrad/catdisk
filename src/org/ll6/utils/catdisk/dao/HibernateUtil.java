@@ -7,7 +7,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.ll6.utils.catdisk.entities.Disk;
 import org.ll6.utils.catdisk.entities.FileData;
+import org.springframework.stereotype.Component;
 
+@Component("HibernateUtil")
 public class HibernateUtil {
 	private static final Logger logger = LogManager.getLogger();
 	

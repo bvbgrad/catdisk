@@ -38,6 +38,8 @@ public class CatdiskConfiguration
 	
     @Bean
     public ViewResolver viewResolver() {
+    	logger.info("ViewResolver");
+    	
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/views/");
@@ -49,6 +51,8 @@ public class CatdiskConfiguration
     @Bean
     @Profile("prod")
     DataSource dataSourceProd() {
+    	logger.info("dataSourceProd");
+    	
     	DataSource dataSource = null;
     	JndiTemplate jndi = new JndiTemplate();
     	try {
@@ -62,6 +66,7 @@ public class CatdiskConfiguration
     @Bean
     @Profile("dev")
     DataSource dataSourceDev() {
+    	logger.info("dataSourceDev");
         DataSource dataSource = null;
         JndiTemplate jndi = new JndiTemplate();
         try {
