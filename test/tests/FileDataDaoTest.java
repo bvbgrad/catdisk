@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.ll6.utils.catdisk.dao.DiskDao;
 import org.ll6.utils.catdisk.entities.Disk;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,12 +17,12 @@ import config.CatdiskTestConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FileDataDaoTest {
 
-//	AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
-//			org.ll6.utils.catdisk.configuration.CatdiskConfiguration.class);
-//	
-//	private DiskDao diskDao = ctx.getBean(DiskDao.class);	
-	@Autowired
-	private DiskDao diskDao;	
+	AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+			config.CatdiskTestConfiguration.class);
+	
+	private DiskDao diskDao = ctx.getBean(DiskDao.class);	
+//	@Autowired
+//	private DiskDao diskDao;	
 	
 	@Test
 	public void testDiskCount() {

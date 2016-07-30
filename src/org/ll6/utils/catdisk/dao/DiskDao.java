@@ -24,7 +24,6 @@ public class DiskDao {
 
 	public Session session() 
 	{
-//		return sessionFactory.getCurrentSession();
 		return HibernateUtil.getSessionFactory().openSession();
 	}
 
