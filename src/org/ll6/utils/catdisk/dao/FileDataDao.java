@@ -84,6 +84,15 @@ public class FileDataDao {
 		crit.add(Restrictions.eq("diskID", id));
 		return crit.list();
 	}
+	
+	public int getNumberFilesForDisk(long id, String volumeName, int copyNum) {
+		logger.info("getNumberFilesForDisk for disk # {} = {} : {}", id, volumeName, copyNum);	
+		Criteria crit = session().createCriteria(FileData.class);
+//		crit.add(Restrictions.eq("diskID", id));
+		crit.add(Restrictions.eq("volumeName", volumeName));
+		crit.add(Restrictions.eq("diskCopyNum", copyNum));	
+		return crit.list().size();
+	}
 
 	public void saveOrUpdate(FileData fileData) {
 		logger.info("saveOrUpdate: " + fileData);	

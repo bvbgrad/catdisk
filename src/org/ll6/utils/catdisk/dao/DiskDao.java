@@ -75,7 +75,10 @@ public class DiskDao {
 
 	public void saveOrUpdate(Disk Disk) {
 		logger.info("saveOrUpdate: " + Disk);	
+		session().beginTransaction();
 		session().saveOrUpdate(Disk);
+		session().flush();
+		session().close();
 	}
 
 	public boolean delete(int id) {

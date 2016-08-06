@@ -38,6 +38,9 @@ public class Disk {
 	@Column(name="LocationTxt")	
 	private String locationTxt;
 	
+	@Column(name="numberFiles")	
+	private int numberFiles;
+	
 	@Column(name="CreatedOn")	
 	private Timestamp createdOn;
 	
@@ -51,7 +54,8 @@ public class Disk {
 	public String toString() {
 		return "Disk [diskID=" + diskID + ", volumeName=" + volumeName + ", diskSerialNum=" + diskSerialNum
 				+ ", diskCopyNum=" + diskCopyNum + ", diskDate=" + diskDate + ", descriptionTxt=" + descriptionTxt
-				+ ", locationTxt=" + locationTxt + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + "]";
+				+ ", locationTxt=" + locationTxt + ", numberFiles=" + numberFiles + ", createdOn=" + createdOn
+				+ ", modifiedOn=" + modifiedOn + "]";
 	}
 
 	public long getDiskID() {
@@ -110,6 +114,14 @@ public class Disk {
 		this.locationTxt = locationTxt;
 	}
 
+	public int getNumberFiles() {
+		return numberFiles;
+	}
+
+	public void setNumberFiles(int numberFiles) {
+		this.numberFiles = numberFiles;
+	}
+
 	public Timestamp getCreatedOn() {
 		return createdOn;
 	}
@@ -125,7 +137,7 @@ public class Disk {
 	public void setModifiedOn(Timestamp modifiedOn) {
 		this.modifiedOn = modifiedOn;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -138,6 +150,7 @@ public class Disk {
 		result = prime * result + ((diskSerialNum == null) ? 0 : diskSerialNum.hashCode());
 		result = prime * result + ((locationTxt == null) ? 0 : locationTxt.hashCode());
 		result = prime * result + ((modifiedOn == null) ? 0 : modifiedOn.hashCode());
+		result = prime * result + numberFiles;
 		result = prime * result + ((volumeName == null) ? 0 : volumeName.hashCode());
 		return result;
 	}
@@ -185,6 +198,8 @@ public class Disk {
 				return false;
 		} else if (!modifiedOn.equals(other.modifiedOn))
 			return false;
+		if (numberFiles != other.numberFiles)
+			return false;
 		if (volumeName == null) {
 			if (other.volumeName != null)
 				return false;
@@ -192,5 +207,5 @@ public class Disk {
 			return false;
 		return true;
 	}
-
+	
 }

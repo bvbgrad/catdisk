@@ -194,6 +194,9 @@ class DiskFileController extends Controller
 	    $diskData['descriptionTxt'] === Null? 
 	    	$disk->setDescriptionTxt('new disk'):
 	    	$disk->setDescriptionTxt($diskData['descriptionTxt']);
+	    $diskData['numberFiles'] === 0? 
+	    	$disk->setNumberFiles(0):
+	    	$disk->setNumberFiles($diskData['numberFiles']);
 	    $diskData['locationTxt'] === Null? 
 	    	$disk->setLocationTxt('TBD'):
 	    	$disk->setLocationTxt($diskData['locationTxt']);
@@ -227,6 +230,9 @@ class DiskFileController extends Controller
 	    	])
 	    	->add('locationtxt', TextType::class, [
 	    			'label' => 'Location: '
+	    	])
+	    	->add('numberFiles', IntegerType::class, [
+	    			'label' => 'Number of Files: '
 	    	])
 	    	->add('createdon', DateType::class, [
 	    			'input' => 'timestamp',

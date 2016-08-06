@@ -62,7 +62,13 @@ class Disk
      * @ORM\Column(name="LocationTxt", type="string", length=20, nullable=true)
      */
     private $locationTxt;
-
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="NumberFiles", type="string", length=20, nullable=true)
+     */
+    private $numberFiles;
+    
     /**
      * @var \DateTime
      *
@@ -232,6 +238,30 @@ class Disk
         return $this->locationTxt;
     }
 
+    /**
+     * Set NumberFiles
+     *
+     * @param integer $numberFiles
+     *
+     * @return Tbldisks
+     */
+    public function setNumberFiles($numberFiles)
+    {
+        $this->numberFiles = $numberFiles;
+
+        return $this;
+    }
+
+    /**
+     * Get numberFiles
+     *
+     * @return integer
+     */
+    public function getNumberFiles()
+    {
+        return $this->numberFiles;
+    }
+    
     /**
      * Set createdOn
      *

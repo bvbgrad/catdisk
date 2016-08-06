@@ -7,6 +7,7 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ll6.utils.catdisk.dao.DiskDao;
+import org.ll6.utils.catdisk.dao.FileDataDao;
 import org.ll6.utils.catdisk.entities.Disk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ public class DiskJsonController {
 	
 	@Autowired
 	private DiskDao diskDao;
+	
+	@Autowired
+	private FileDataDao fileDataDao;
 	
 //	@RequestMapping(value="/getDisk/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value="/getDisk/{id}", method = RequestMethod.GET)
@@ -39,6 +43,17 @@ public class DiskJsonController {
 	{
 		logger.info("Get range of disks: {} to {}", start, stop);
 		List<Disk> diskList = diskDao.getSomeDisks(start, stop);
+
+//TODO temporary adjustment to disk information until update tbldisks 
+		for (Disk disk : diskList) {
+			disk.setNumberFiles(fileDataDao.getNumberFilesForDisk(
+				disk.getDiskID(),
+				disk.getVolumeName(),
+				disk.getDiskCopyNum()
+			));
+		}
+// end of TODO
+		
 		return new ResponseEntity<List<Disk>>(diskList, HttpStatus.OK);
 	}
 	

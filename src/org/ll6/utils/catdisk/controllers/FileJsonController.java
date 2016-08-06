@@ -27,17 +27,18 @@ public class FileJsonController {
 	@Autowired
 	private FileDataDao fileDataDao;
 	
-	@RequestMapping(value="/addDiskID", method = RequestMethod.GET)
-	public int addDiskID()
+	@RequestMapping(value="/addDiskID/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<FileData>> addDiskID(@PathVariable("id") long id)
+//	public ResponseEntity<List<FileData>> addDiskID()
 	{
 		List<Disk> disks = new ArrayList<Disk>();
 		List<FileData> files = new ArrayList<FileData>();
 		int numFiles = 0;
 		
-		for (long i = 1; i < 3; i++) {
+//		for (long id = 1; id < 5; id++) {
 			
-			Disk disk = diskDao.getDisk(i);
-			logger.info("addDiskID for id: {} {}", i, disk);
+			Disk disk = diskDao.getDisk(id);
+			logger.info("addDiskID for id: {} {}", id, disk);
 			disks.add(disk);
 
 			String volumeName = disk.getVolumeName();
@@ -45,17 +46,21 @@ public class FileJsonController {
 			logger.info("Get files for disk: '{}:{}'", volumeName, copyNum);
 	        List<FileData> fileList = fileDataDao.getDiskFiles(volumeName, copyNum);
 			numFiles = numFiles + fileList.size();
-			System.out.println(fileList.size() + " files for Disk " +i);
+			System.out.println(fileList.size() + " files for Disk " +id);
 			
+			files.clear();
 			for(FileData file: fileList) {
-				file.setDiskID(i);
-				fileDataDao.saveOrUpdate(file);
-				System.out.println("Disk " + i + ": " + "file: " + file );
+				file.setDiskID(id);
+//				fileDataDao.saveOrUpdate(file);
+				System.out.println("Disk " + id + ": " + "file: " + file );
 				files.add(file);
 			}
-		}
+			
+			System.out.println("Disk: " + disk.getDiskID() + " file list");
+			System.out.println(files);
+//		}
 		
-		return numFiles;
+		return new ResponseEntity<List<FileData>>(files, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/getFile/{id}", method = RequestMethod.GET)
