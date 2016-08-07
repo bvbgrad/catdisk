@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.ll6.utils.catdisk.entities.FileData;
 import org.springframework.stereotype.Component;
@@ -95,8 +96,20 @@ public class FileDataDao {
 	}
 
 	public void saveOrUpdate(FileData fileData) {
-		logger.info("saveOrUpdate: " + fileData);	
-		session().saveOrUpdate(fileData);
+		logger.info("saveOrUpdate: " + fileData);
+		
+		Session session = session();
+		Transaction transaction = session.beginTransaction();
+		
+		try {
+			session.saveOrUpdate(fileData);
+			transaction.commit();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
 	}
 
 	public boolean delete(int id) {

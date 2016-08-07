@@ -27,15 +27,17 @@ public class FileJsonController {
 	@Autowired
 	private FileDataDao fileDataDao;
 	
-	@RequestMapping(value="/addDiskID/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<FileData>> addDiskID(@PathVariable("id") long id)
-//	public ResponseEntity<List<FileData>> addDiskID()
+	@RequestMapping(value="/addDiskID/{idStart}/{idEnd}", method = RequestMethod.GET)
+	public ResponseEntity<Integer> addDiskID
+		(@PathVariable("idStart") long idStart, @PathVariable("idEnd") long idEnd)
+//	public ResponseEntity<List<FileData>> addDiskID(@PathVariable("idStart") long idStart)
 	{
 		List<Disk> disks = new ArrayList<Disk>();
 		List<FileData> files = new ArrayList<FileData>();
 		int numFiles = 0;
+//		long idEnd = idStart + 10;
 		
-//		for (long id = 1; id < 5; id++) {
+		for (long id = idStart; id < idEnd + 1; id++) {
 			
 			Disk disk = diskDao.getDisk(id);
 			logger.info("addDiskID for id: {} {}", id, disk);
@@ -49,18 +51,18 @@ public class FileJsonController {
 			System.out.println(fileList.size() + " files for Disk " +id);
 			
 			files.clear();
-			for(FileData file: fileList) {
-				file.setDiskID(id);
-//				fileDataDao.saveOrUpdate(file);
-				System.out.println("Disk " + id + ": " + "file: " + file );
-				files.add(file);
+			for(FileData fileData: fileList) {
+				fileData.setDiskID(id);
+				fileDataDao.saveOrUpdate(fileData);
+//				System.out.println("Disk " + id + ": " + "file: " + fileData );
+				files.add(fileData);
 			}
 			
 			System.out.println("Disk: " + disk.getDiskID() + " file list");
-			System.out.println(files);
-//		}
+//			System.out.println(files);
+		}
 		
-		return new ResponseEntity<List<FileData>>(files, HttpStatus.OK);
+		return new ResponseEntity<Integer>(numFiles, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/getFile/{id}", method = RequestMethod.GET)
@@ -74,7 +76,7 @@ public class FileJsonController {
 	
 	@RequestMapping(value="/getFileRange/{start}/{stop}", method = RequestMethod.GET)
 	public ResponseEntity<List<FileData>> getFileRange
-	(@PathVariable("start") long start, @PathVariable("stop") long stop)
+		(@PathVariable("start") long start, @PathVariable("stop") long stop)
 	{
 		logger.info("Get range of files: {} to {}", start, stop);
 		List<FileData> fileList = fileDataDao.getSomeFiles(start, stop);

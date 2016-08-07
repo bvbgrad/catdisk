@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import org.ll6.utils.catdisk.entities.Disk;
 import org.ll6.utils.catdisk.entities.FileData;
 import org.springframework.stereotype.Component;
@@ -29,9 +30,14 @@ public class HibernateUtil {
 			    .setProperty("hibernate.connection.datasource", "java:comp/env/jdbc/catdisk01")
 				.addAnnotatedClass(Disk.class)
 				.addAnnotatedClass(FileData.class);
-			return cfg.buildSessionFactory(new StandardServiceRegistryBuilder()
-					.applySettings(cfg.getProperties())
-					.build());
+			StandardServiceRegistryBuilder builder = 
+			   new StandardServiceRegistryBuilder().applySettings(cfg.getProperties());
+			ServiceRegistry serviceRegistry = builder.build();
+			
+			return cfg.buildSessionFactory(serviceRegistry);
+//			return cfg.buildSessionFactory(new StandardServiceRegistryBuilder()
+//					.applySettings(cfg.getProperties())
+//					.build());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("There was an error building the factory");
