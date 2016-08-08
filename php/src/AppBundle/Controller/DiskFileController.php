@@ -101,7 +101,7 @@ class DiskFileController extends Controller
 		    } else {
 		    	// Provide warning that there are no files 
 				$this->addFlash('warning', 'No files for disk #'.$diskID);
-				return $this->redirectToRoute('diskfile_diskrange');
+				return $this->redirectToRoute('diskfile_manage');
 		    }
 	    } else {
 	    	//yep, it's not JSON. Log error or alert someone or do nothing

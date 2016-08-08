@@ -50,6 +50,16 @@ public class Disk {
 	public Disk() {
 	}
 
+	public Disk(String volumeName, String diskSerialNum, Date diskDate, 
+			String descriptionTxt, String locationTxt) {
+		super();
+		this.volumeName = volumeName;
+		this.diskSerialNum = diskSerialNum;
+		this.diskDate = diskDate;
+		this.descriptionTxt = descriptionTxt;
+		this.locationTxt = locationTxt;
+	}
+
 	@Override
 	public String toString() {
 		return "Disk [diskID=" + diskID + ", volumeName=" + volumeName + ", diskSerialNum=" + diskSerialNum

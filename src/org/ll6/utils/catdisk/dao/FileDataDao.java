@@ -2,6 +2,7 @@ package org.ll6.utils.catdisk.dao;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -26,8 +27,9 @@ public class FileDataDao {
 
 	public Session session() 
 	{
-//		return sessionFactory.getCurrentSession();
+//		return SessionFactory.getCurrentSession();
 		return HibernateUtil.getSessionFactory().openSession();
+//		return HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 
 	public long addFile(String diskID, String fileName,
@@ -35,20 +37,41 @@ public class FileDataDao {
 			Timestamp createdOn)
 	{
 		
-		FileData fileData = 
-			new FileData();
-
+		FileData fileData = new FileData();
+		Session session = session();
+		Transaction transaction = session.beginTransaction();
+		
+		try {
+			session.save(fileData);
+			transaction.commit();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("addFile: close session");
+				session.close();
+		}
 		logger.info("addFile: " + fileData);
-		session().save(fileData);
 		return fileData.getID();  // Caller usually needs ID number
 
 	}
 	
 	public long getFileCount() 
 	{
-		long fileCount = (long) session().createQuery(
-			"select count(*) from FileData")
-			.uniqueResult();
+		long fileCount = 0;
+		
+		Session session = session();
+		try {
+			fileCount = (long) session.createQuery(
+					"select count(*) from FileData")
+					.uniqueResult();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("getFileCount: close session");
+				session.close();
+		}
 		logger.info("getFileCount : {}", fileCount);
 		
 		return fileCount;
@@ -56,47 +79,108 @@ public class FileDataDao {
 	
 	public FileData getFile(long id) {
 		logger.info("getFile for id: " + id);	
-		Criteria crit = session().createCriteria(FileData.class);
-		crit.add(Restrictions.idEq(id));
-		return (FileData)crit.uniqueResult();
+
+		FileData fileData = new FileData();
+		Session session = session();
+		try {
+			Criteria crit = session.createCriteria(FileData.class);
+			crit.add(Restrictions.idEq(id));
+			fileData = (FileData)crit.uniqueResult();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("getFile: close session");
+				session.close();
+		}
+		
+		return fileData;
 	}
 	
 	public List<FileData> getSomeFiles(long start, long end)
 	{
 		long idRange = end - start +1;
-		logger.info("get " + idRange + " files:  starting with: " + start);	
-		Criteria crit = session().createCriteria(FileData.class);
-		crit.add(Restrictions.gt("id", start - 1)); // have to offset index to get
-		crit.add(Restrictions.lt("id", end + 1));	// the entire range requested
-		return crit.list();
+		logger.info("get " + idRange + " files:  starting with: " + start);
+		
+		List<FileData> fileDataList = new ArrayList<FileData>();
+		Session session = session();
+		try {
+			Criteria crit = session.createCriteria(FileData.class);
+			crit.add(Restrictions.gt("id", start - 1)); // have to offset index to get
+			crit.add(Restrictions.lt("id", end + 1));	// the entire range requested
+			fileDataList = (List<FileData>)crit.uniqueResult();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("getSomeFiles: close session");
+				session.close();
+		}
+		return fileDataList;
 	}
 	
 	public List<FileData> getDiskFiles(String volumeName, int copyNum) {
 		logger.info("get files for {} : {}: ", volumeName, copyNum);	
-		Criteria crit = session().createCriteria(FileData.class);
-		crit.add(Restrictions.eq("volumeName", volumeName));
-		crit.add(Restrictions.eq("diskCopyNum", copyNum));	
-		return crit.list();
+		
+		List<FileData> fileDataList = new ArrayList<FileData>();
+		Session session = session();
+		try {
+			Criteria crit = session.createCriteria(FileData.class);
+			crit.add(Restrictions.eq("volumeName", volumeName));
+			crit.add(Restrictions.eq("diskCopyNum", copyNum));	
+			fileDataList = (List<FileData>)crit.list();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("getDiskFiles: close session");
+				session.close();
+		}
+		return fileDataList;
 	}
 
 	public List<FileData> getFiles(long id) {
 		logger.info("getFiles for disk # {}", id);	
-		Criteria crit = session().createCriteria(FileData.class);
-		crit.add(Restrictions.eq("diskID", id));
-		return crit.list();
+
+		List<FileData> fileDataList = new ArrayList<FileData>();
+		Session session = session();
+		try {
+			Criteria crit = session.createCriteria(FileData.class);
+			crit.add(Restrictions.eq("diskID", id));
+			fileDataList = (List<FileData>)crit.list();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("getFiles: close session");
+				session.close();
+		}
+		return fileDataList;
 	}
 	
 	public int getNumberFilesForDisk(long id, String volumeName, int copyNum) {
 		logger.info("getNumberFilesForDisk for disk # {} = {} : {}", id, volumeName, copyNum);	
-		Criteria crit = session().createCriteria(FileData.class);
-//		crit.add(Restrictions.eq("diskID", id));
-		crit.add(Restrictions.eq("volumeName", volumeName));
-		crit.add(Restrictions.eq("diskCopyNum", copyNum));	
-		return crit.list().size();
+
+		int numberFiles = 0;
+		Session session = session();
+		try {
+			Criteria crit = session.createCriteria(FileData.class);
+//			crit.add(Restrictions.eq("diskID", id));
+			crit.add(Restrictions.eq("volumeName", volumeName));
+			crit.add(Restrictions.eq("diskCopyNum", copyNum));	
+			numberFiles =crit.list().size();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("getNumberFilesForDisk: close session");
+				session.close();
+		}
+		return numberFiles;
 	}
 
 	public void saveOrUpdate(FileData fileData) {
-		logger.info("saveOrUpdate: " + fileData);
+		logger.debug("saveOrUpdate: " + fileData);
 		
 		Session session = session();
 		Transaction transaction = session.beginTransaction();
@@ -108,15 +192,31 @@ public class FileDataDao {
 			e.printStackTrace();
 		} finally {
 			if (session.isOpen())
+				logger.debug("saveOrUpdate: close session");
 				session.close();
 		}
 	}
 
 	public boolean delete(int id) {
 		logger.info("delete: " + id);	
-		Query query = session().createQuery("delete from FileData where id=:id");
-		query.setInteger("id", id);
-		return query.executeUpdate() == 1;
+
+		Boolean success = false;
+		Session session = session();
+		Transaction transaction = session.beginTransaction();
+		
+		try {
+			Query query = session.createQuery("delete from FileData where id=:id");
+			query.setInteger("id", id);
+			success = query.executeUpdate() == 1;
+			transaction.commit();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				logger.debug("delete: close session");
+				session.close();
+		}
+		return success;
 	}
 
 }

@@ -15,13 +15,21 @@
         
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
     
+    <body>
 	    <nav class="navbar navbar-light bg-faded">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" 
-				data-target="#exCollapsingNavbar" aria-controls="exCollapsingNavbar" 
-				aria-expanded="false" aria-label="Toggle navigation"> &#9776;
-  			</button>
+	    	<div class="row">
+	    		<div class="col-md-1"></div>
+	    		<div class="col-md-9">
+	    			<h4>Disk Catalog Maintenance</h4>
+	    		</div>
+				<div class="col-md-2">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" 
+						data-target="#exCollapsingNavbar" aria-controls="exCollapsingNavbar" 
+						aria-expanded="false" aria-label="Toggle navigation"> &#9776;
+		  			</button>
+				</div>
+	    	</div>
   		<div class="collapse" id="exCollapsingNavbar" >
 	        <div id="navbar" class="collapse navbar-collapse">
 	          <ul class="nav navbar-nav">
@@ -50,7 +58,9 @@
             </div>
 		</div>
 
-     {% block body %}{% endblock %}
+		<div style="padding: 20px;">
+	     {% block body %}{% endblock %}
+		</div>
         
     </div><!-- /.container -->
     

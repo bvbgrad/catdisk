@@ -23,7 +23,6 @@ public class HibernateUtil {
 		
 		try {
 			Configuration cfg = new Configuration()
-//				.configure()
 				.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver")
 				.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect")
 				.setProperty("hibernate.show_sql", "true")
@@ -35,9 +34,6 @@ public class HibernateUtil {
 			ServiceRegistry serviceRegistry = builder.build();
 			
 			return cfg.buildSessionFactory(serviceRegistry);
-//			return cfg.buildSessionFactory(new StandardServiceRegistryBuilder()
-//					.applySettings(cfg.getProperties())
-//					.build());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("There was an error building the factory");
